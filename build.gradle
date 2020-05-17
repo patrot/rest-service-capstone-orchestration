@@ -14,11 +14,16 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compile group: 'org.apache.httpcomponents', name: 'httpclient'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.hamcrest:hamcrest:2.2'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
+	implementation 'junit:junit:4.12'
+	testCompile group: 'org.junit.platform', name: 'junit-platform-runner'
+	testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
 }
 
 test {

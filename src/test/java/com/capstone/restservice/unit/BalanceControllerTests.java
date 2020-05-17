@@ -1,7 +1,7 @@
 package com.capstone.restservice.unit;
 
-import com.capstone.restservice.controller.DepartmentController;
-import com.capstone.restservice.domain.Department;
+import com.capstone.restservice.controller.BalanceController;
+import com.capstone.restservice.domain.Balance;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -19,18 +19,20 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
-@WebMvcTest(DepartmentController.class)
-public class DepartmentControllerTests {
+@WebMvcTest(BalanceController.class)
+public class BalanceControllerTests {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    public void allDepartmentsShouldReturnOkStatusFromService() throws Exception {
+    public void allBalancesShouldReturnOkStatusFromService() throws Exception {
 
-        // Arrange
+        //Arrange
 
-        MvcResult result = this.mockMvc.perform(get("/departments")).
+        // Act
+
+        MvcResult result = this.mockMvc.perform(get("/balances")).
                 andDo(print()).andReturn();
 
         // Assert
@@ -39,23 +41,26 @@ public class DepartmentControllerTests {
     }
 
     @Test
-    public void allDepartmentsShouldReturnAllDepartmentsFromService() throws Exception {
+    public void allBalancesShouldReturnAllBalancesFromService() throws Exception {
 
-        //Arrange
+        // Arrange
 
-        List<Department> expectedDepartments = new ArrayList<>();
-        expectedDepartments.add(new Department(100L,"Shirt"));
-        expectedDepartments.add(new Department(200L,"Trousers"));
+        List<Balance> expectedProductBalances = new ArrayList<>();
+        expectedProductBalances.add(new Balance(1L, 1L, 1L, 10));
+        expectedProductBalances.add(new Balance(2L, 1L, 2L, 10));
+        expectedProductBalances.add(new Balance(3L, 2L, 1L, 10));
+        expectedProductBalances.add(new Balance(4L, 2L, 2L, 10));
 
         // Act
-        MvcResult result = this.mockMvc.perform(get("/departments")).
+
+        MvcResult result = this.mockMvc.perform(get("/balances")).
                 andDo(print()).andReturn();
 
         // Assert
 
         String response = result.getResponse().getContentAsString();
         ObjectMapper objectMapper = new ObjectMapper();
-        List<Department> actualDepartments = objectMapper.readValue(response, new TypeReference<>() {});
-        assertTrue(Arrays.deepEquals(expectedDepartments.toArray(), actualDepartments.toArray()));
+        List<Balance> actualProductBalances = objectMapper.readValue(response, new TypeReference<>() {});
+        assertTrue(Arrays.deepEquals(expectedProductBalances.toArray(), actualProductBalances.toArray()));
     }
 }

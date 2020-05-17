@@ -1,7 +1,7 @@
 package com.capstone.restservice.unit;
 
-import com.capstone.restservice.controller.DepartmentController;
-import com.capstone.restservice.domain.Department;
+import com.capstone.restservice.controller.ProductController;
+import com.capstone.restservice.domain.Product;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -19,18 +19,18 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
-@WebMvcTest(DepartmentController.class)
-public class DepartmentControllerTests {
+@WebMvcTest(ProductController.class)
+public class ProductControllerTests {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    public void allDepartmentsShouldReturnOkStatusFromService() throws Exception {
+    public void allProductsShouldReturnOkStatusFromService() throws Exception {
 
         // Arrange
 
-        MvcResult result = this.mockMvc.perform(get("/departments")).
+        MvcResult result = this.mockMvc.perform(get("/products")).
                 andDo(print()).andReturn();
 
         // Assert
@@ -39,23 +39,25 @@ public class DepartmentControllerTests {
     }
 
     @Test
-    public void allDepartmentsShouldReturnAllDepartmentsFromService() throws Exception {
+    public void allProductsShouldReturnAllProductsFromService() throws Exception {
 
-        //Arrange
+        // Arrange
 
-        List<Department> expectedDepartments = new ArrayList<>();
-        expectedDepartments.add(new Department(100L,"Shirt"));
-        expectedDepartments.add(new Department(200L,"Trousers"));
+        List<Product> expectedProducts = new ArrayList<>();
+        expectedProducts.add(new Product(1L, "Long Sleeves", 7L));
+        expectedProducts.add(new Product(2L, "Short Sleeves", 7L));
 
         // Act
-        MvcResult result = this.mockMvc.perform(get("/departments")).
-                andDo(print()).andReturn();
+
+        MvcResult result = this.mockMvc.perform(get("/products"))
+                .andDo(print()).andReturn();
 
         // Assert
 
         String response = result.getResponse().getContentAsString();
         ObjectMapper objectMapper = new ObjectMapper();
-        List<Department> actualDepartments = objectMapper.readValue(response, new TypeReference<>() {});
-        assertTrue(Arrays.deepEquals(expectedDepartments.toArray(), actualDepartments.toArray()));
+        List<Product> actualProducts = objectMapper.readValue(response, new TypeReference<>() {});
+        System.out.println(actualProducts);
+        assertTrue(Arrays.deepEquals(expectedProducts.toArray(), actualProducts.toArray()));
     }
 }

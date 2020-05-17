@@ -1,7 +1,7 @@
 package com.capstone.restservice.unit;
 
-import com.capstone.restservice.controller.DepartmentController;
-import com.capstone.restservice.domain.Department;
+import com.capstone.restservice.controller.LocationController;
+import com.capstone.restservice.domain.Location;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -19,18 +19,20 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
-@WebMvcTest(DepartmentController.class)
-public class DepartmentControllerTests {
+@WebMvcTest(LocationController.class)
+public class LocationControllerTests {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    public void allDepartmentsShouldReturnOkStatusFromService() throws Exception {
+    public void allLocationsShouldReturnOkStatusFromService() throws Exception {
 
-        // Arrange
+        //Arrange
 
-        MvcResult result = this.mockMvc.perform(get("/departments")).
+        // Act
+
+        MvcResult result = this.mockMvc.perform(get("/locations")).
                 andDo(print()).andReturn();
 
         // Assert
@@ -39,23 +41,24 @@ public class DepartmentControllerTests {
     }
 
     @Test
-    public void allDepartmentsShouldReturnAllDepartmentsFromService() throws Exception {
+    public void allLocationsShouldReturnAllLocationsFromService() throws Exception {
 
-        //Arrange
+        // Arrange
 
-        List<Department> expectedDepartments = new ArrayList<>();
-        expectedDepartments.add(new Department(100L,"Shirt"));
-        expectedDepartments.add(new Department(200L,"Trousers"));
+        List<Location> expectedLocations = new ArrayList<>();
+        expectedLocations.add(new Location(1L,"Irving", "75016"));
+        expectedLocations.add(new Location(2L,"Plano", "75025"));
 
         // Act
-        MvcResult result = this.mockMvc.perform(get("/departments")).
+
+        MvcResult result = this.mockMvc.perform(get("/locations")).
                 andDo(print()).andReturn();
 
         // Assert
 
         String response = result.getResponse().getContentAsString();
         ObjectMapper objectMapper = new ObjectMapper();
-        List<Department> actualDepartments = objectMapper.readValue(response, new TypeReference<>() {});
-        assertTrue(Arrays.deepEquals(expectedDepartments.toArray(), actualDepartments.toArray()));
+        List<Location> actualDepartments = objectMapper.readValue(response, new TypeReference<>() {});
+        assertTrue(Arrays.deepEquals(expectedLocations.toArray(), actualDepartments.toArray()));
     }
 }

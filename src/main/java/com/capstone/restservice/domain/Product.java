@@ -3,16 +3,18 @@ package com.capstone.restservice.domain;
 import lombok.Data;
 
 @Data
-public class Department {
+public class Product {
     private Long id;
     private String name;
+    private Long departmentId;
 
-    public Department() {
+    public Product() {
         super();
     }
 
-    public Department(Long id, String name) {
+    public Product(Long id, String name, Long departmentId) {
         this.id = id;
         this.name = name;
+        this.departmentId = departmentId;
     }
 }
