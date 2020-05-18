@@ -1,6 +1,9 @@
 package com.capstone.restservice.service;
 
 import com.capstone.restservice.domain.Balance;
+import com.capstone.restservice.restclient.BalanceDto;
+import com.capstone.restservice.restclient.BalanceRestClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -8,13 +11,21 @@ import java.util.List;
 
 @Service
 public class BalanceServiceImpl implements BalanceService {
+
+    @Autowired
+    private BalanceRestClient balanceRestClient;
+
     @Override
     public List<Balance> getAll() {
+        List<BalanceDto> balanceDtos = balanceRestClient.getAll();
+
         List<Balance> balances = new ArrayList<>();
-        balances.add(new Balance(1L, 1L, 1L, 10));
-        balances.add(new Balance(2L, 1L, 2L, 10));
-        balances.add(new Balance(3L, 2L, 1L, 10));
-        balances.add(new Balance(4L, 2L, 2L, 10));
+
+        for (BalanceDto balanceDto:balanceDtos) {
+            balances.add(new Balance(
+                    balanceDto.getId(), balanceDto.getProductId(), balanceDto.getLocationId(), balanceDto.getQuantity()));
+        }
+
         return balances;
     }
 }
