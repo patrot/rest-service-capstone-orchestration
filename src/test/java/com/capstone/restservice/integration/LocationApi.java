@@ -51,7 +51,7 @@ public class LocationApi {
 
     @Test
     @DirtiesContext
-    public void locationsPathShouldReturnAllDepartmentsInPersistence() throws IOException {
+    public void locationsPathShouldReturnAllLocationsInPersistence() throws IOException {
 
         // Arrange
 
