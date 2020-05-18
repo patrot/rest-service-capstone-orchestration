@@ -1,21 +1,22 @@
 package com.capstone.restservice.controller;
 
 import com.capstone.restservice.domain.Balance;
+import com.capstone.restservice.service.BalanceService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 public class BalanceController {
+
+    @Autowired
+    private BalanceService balanceService;
+
     @GetMapping("/balances")
     public List<Balance> allBalances() {
-        List<Balance> balances = new ArrayList<>();
-        balances.add(new Balance(1L, 1L, 1L, 10));
-        balances.add(new Balance(2L, 1L, 2L, 10));
-        balances.add(new Balance(3L, 2L, 1L, 10));
-        balances.add(new Balance(4L, 2L, 2L, 10));
-        return balances;
+
+        return balanceService.getAll();
     }
 }
