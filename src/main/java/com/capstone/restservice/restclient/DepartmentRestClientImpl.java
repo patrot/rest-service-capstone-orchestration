@@ -5,12 +5,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Component
 public class DepartmentRestClientImpl implements DepartmentRestClient {
 
-    private final String departmentUrl = "http://ec2-3-89-224-158.compute-1.amazonaws.com:8080/";
+    private final String departmentUrl = "http://ec2-3-89-224-158.compute-1.amazonaws.com:8080";
 
 
     @Override
@@ -22,11 +23,7 @@ public class DepartmentRestClientImpl implements DepartmentRestClient {
 
         DepartmentDto[] departmentDtoArray = responseEntity.getBody();
 
-        List<DepartmentDto> departmentDtos = new ArrayList<>();
-
-        for (DepartmentDto departmentDto:departmentDtoArray) {
-            departmentDtos.add(departmentDto);
-        }
+        List<DepartmentDto> departmentDtos = new ArrayList<>(Arrays.asList(departmentDtoArray));
 
         return departmentDtos;
     }
