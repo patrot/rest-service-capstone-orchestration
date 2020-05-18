@@ -53,7 +53,7 @@ public class ProductControllerTests {
         expectedProducts.add(new Product(1L, "Long Sleeves", 7L));
         expectedProducts.add(new Product(2L, "Short Sleeves", 7L));
 
-        when(productService.GetAll()).thenReturn(expectedProducts);
+        when(productService.getAll()).thenReturn(expectedProducts);
 
         // Act
 
@@ -62,7 +62,7 @@ public class ProductControllerTests {
 
         // Assert
 
-        verify(productService, times(1)).GetAll();
+        verify(productService, times(1)).getAll();
 
         String response = result.getResponse().getContentAsString();
         ObjectMapper objectMapper = new ObjectMapper();

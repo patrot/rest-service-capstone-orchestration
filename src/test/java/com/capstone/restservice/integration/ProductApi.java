@@ -59,8 +59,12 @@ public class ProductApi {
         // Arrange
 
         List<Product> expectedProducts = new ArrayList<>();
-        expectedProducts.add(new Product(1L, "Long Sleeves", 1L));
-        expectedProducts.add(new Product(2L, "Short Sleeves", 1L));
+        expectedProducts.add(new Product(24L, "Long Sleeves", 7L));
+        expectedProducts.add(new Product(25L, "Short Sleeves", 7L));
+        expectedProducts.add(new Product(26L, "No Collar", 7L));
+        expectedProducts.add(new Product(27L, "Straight", 8L));
+        expectedProducts.add(new Product(28L, "Flared", 8L));
+        expectedProducts.add(new Product(29L, "Cargo", 8L));
 
         HttpUriRequest request = new HttpGet("http://localhost:" + port + productsPath);
 

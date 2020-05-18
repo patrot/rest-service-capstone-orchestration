@@ -56,8 +56,14 @@ public class DepartmentApi {
         // Arrange
 
         List<Department> expectedDepartments = new ArrayList<>();
-        expectedDepartments.add(new Department(100L,"Shirt"));
-        expectedDepartments.add(new Department(200L,"Trousers"));
+        expectedDepartments.add(new Department(7L,"Shirts"));
+        expectedDepartments.add(new Department(8L,"Trousers"));
+        expectedDepartments.add(new Department(9L,"Jackets"));
+        expectedDepartments.add(new Department(10L,"Jeans"));
+        expectedDepartments.add(new Department(11L,"Caps"));
+        expectedDepartments.add(new Department(12L,"Pajamas"));
+        expectedDepartments.add(new Department(13L,"Skirts"));
+        expectedDepartments.add(new Department(14L,"Sweaters"));
 
         HttpUriRequest request = new HttpGet("http://localhost:" + port + departmentsPath);
 
@@ -70,6 +76,7 @@ public class DepartmentApi {
         String response = EntityUtils.toString(httpResponse.getEntity());
         ObjectMapper objectMapper = new ObjectMapper();
         List<Department> actualDepartments = objectMapper.readValue(response, new TypeReference<>() {});
+        System.out.println(actualDepartments);
         assertTrue(Arrays.deepEquals(expectedDepartments.toArray(), actualDepartments.toArray()));
     }
 
