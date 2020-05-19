@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
-@FeignClient(value = "productbalances", url = "http://ec2-184-73-73-204.compute-1.amazonaws.com:8080/", configuration = BalanceRestClientConfiguration.class)
+@FeignClient(value = "productbalances", url = "${balance.url}", configuration = BalanceRestClientConfiguration.class)
 public interface BalanceRestClient {
     @RequestMapping(method = RequestMethod.GET, value = "/productbalances")
     List<BalanceDto> getAll();

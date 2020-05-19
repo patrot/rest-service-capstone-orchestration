@@ -1,8 +1,8 @@
 package com.capstone.restservice.unit.restclient;
 
-import com.capstone.restservice.restclient.DepartmentDto;
-import com.capstone.restservice.restclient.DepartmentRestClient;
-import com.capstone.restservice.restclient.DepartmentRestClientImpl;
+import com.capstone.restservice.restclient.ProductDto;
+import com.capstone.restservice.restclient.ProductRestClient;
+import com.capstone.restservice.restclient.ProductRestClientImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,19 +28,19 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @RunWith(SpringRunner.class)
-public class DepartmentRestClientTests {
+public class ProductRestClientTests {
 
     @TestConfiguration
-    static class DepartmentRestClientImplTestContextConfiguration {
+    static class ProductRestClientImplTestContextConfiguration {
 
         @Bean
-        public DepartmentRestClient departmentRestClient() {
-            return new DepartmentRestClientImpl();
+        public ProductRestClient productRestClient() {
+            return new ProductRestClientImpl();
         }
     }
 
     @Autowired
-    DepartmentRestClient departmentRestClient;
+    ProductRestClient productRestClient;
 
     @MockBean
     private RestTemplate restTemplate;
@@ -48,34 +48,34 @@ public class DepartmentRestClientTests {
     @Before
     public void setup() {
 
-        DepartmentDto[] departmentDtoArray = new DepartmentDto[2];
-        departmentDtoArray[0] = new DepartmentDto(1L,"Shirt");
-        departmentDtoArray[1] = new DepartmentDto(2L,"Trousers");
+        ProductDto[] productDtoArray = new ProductDto[2];
+        productDtoArray[0] = new ProductDto(1L,"Long Sleeves", 1L);
+        productDtoArray[1] = new ProductDto(2L,"Short Sleeves", 1L);
 
-        ResponseEntity<DepartmentDto[]> responseEntity = new ResponseEntity<>(departmentDtoArray, new HttpHeaders(), HttpStatus.CREATED);
+        ResponseEntity<ProductDto[]> responseEntity = new ResponseEntity<>(productDtoArray, new HttpHeaders(), HttpStatus.CREATED);
 
         Mockito.when(restTemplate.getForEntity(anyString(), any(Class.class)))
                 .thenReturn(responseEntity);
     }
 
     @Test
-    public void getAllDepartmentsTest() {
+    public void getAllProductsTest() {
 
         // Arrange
 
-        List<DepartmentDto> expectedDepartmentDtos = new ArrayList<>();
-        expectedDepartmentDtos.add(new DepartmentDto(1L,"Shirt"));
-        expectedDepartmentDtos.add(new DepartmentDto(2L,"Trousers"));
+        List<ProductDto> expectedProductDtos = new ArrayList<>();
+        expectedProductDtos.add(new ProductDto(1L,"Long Sleeves", 1L));
+        expectedProductDtos.add(new ProductDto(2L,"Short Sleeves", 1L));
 
         // Act
 
-        List<DepartmentDto> actualDepartmentDtos = departmentRestClient.getAll();
+        List<ProductDto> actualProductDtos = productRestClient.getAll();
 
         // Assert
 
         verify(restTemplate, times(1)).getForEntity(anyString(), any(Class.class));
 
-        assertTrue(Arrays.deepEquals(expectedDepartmentDtos.toArray(), actualDepartmentDtos.toArray()));
+        assertTrue(Arrays.deepEquals(expectedProductDtos.toArray(), actualProductDtos.toArray()));
 
     }
 }
