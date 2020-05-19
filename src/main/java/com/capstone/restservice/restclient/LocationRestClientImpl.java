@@ -23,12 +23,16 @@ public class LocationRestClientImpl implements LocationRestClient {
 
         String allLocationsUrl = locationUrl + "/locations";
 
-        WebClient webClient = webClientBuilder.baseUrl(locationUrl).build();
+        WebClient webClient = webClientBuilder
+                .baseUrl(locationUrl)
+                .build();
 
-        WebClient.RequestHeadersSpec<?> requestSpec = webClient.get().uri("/locations");
+        WebClient.RequestHeadersSpec requestSpec = webClient
+                .get()
+                .uri("/locations");
 
-        LocationDto[] locationDtoArray = requestSpec.exchange()
-                .block()
+        LocationDto[] locationDtoArray = requestSpec
+                .retrieve()
                 .bodyToMono(LocationDto[].class)
                 .block();
 
