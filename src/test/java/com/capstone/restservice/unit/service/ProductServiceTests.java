@@ -1,7 +1,6 @@
 package com.capstone.restservice.unit.service;
 
 import com.capstone.restservice.domain.Product;
-import com.capstone.restservice.restclient.DepartmentDto;
 import com.capstone.restservice.restclient.ProductDto;
 import com.capstone.restservice.restclient.ProductRestClient;
 import com.capstone.restservice.service.ProductService;
@@ -44,8 +43,6 @@ public class ProductServiceTests {
 
     @Before
     public void setUp() {
-        DepartmentDto departmentDto = new DepartmentDto(1L,"Shirts");
-        departmentDto.setId(1L);
 
         List<ProductDto> productDtos = new ArrayList<>();
         productDtos.add(new ProductDto(1L,"Long Sleeves", 1L));

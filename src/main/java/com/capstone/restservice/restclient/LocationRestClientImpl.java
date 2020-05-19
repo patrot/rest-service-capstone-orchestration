@@ -1,5 +1,7 @@
 package com.capstone.restservice.restclient;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -10,16 +12,20 @@ import java.util.List;
 @Component
 public class LocationRestClientImpl implements LocationRestClient {
 
-    private final String locationUrl = "http://ec2-35-172-117-48.compute-1.amazonaws.com:8080";
+    @Value("${location.url}")
+    private String locationUrl;
+
+    @Autowired
+    private WebClient.Builder webClientBuilder;
 
     @Override
     public List<LocationDto> getAll() {
 
         String allLocationsUrl = locationUrl + "/locations";
 
-        WebClient webClient = WebClient.create(allLocationsUrl);
+        WebClient webClient = webClientBuilder.baseUrl(locationUrl).build();
 
-        WebClient.RequestHeadersSpec<?> requestSpec = webClient.get();
+        WebClient.RequestHeadersSpec<?> requestSpec = webClient.get().uri("/locations");
 
         LocationDto[] locationDtoArray = requestSpec.exchange()
                 .block()
