@@ -53,10 +53,10 @@ public class BalanceApi {
         // Arrange
 
         List<Balance> expectedBalances = new ArrayList<>();
-        expectedBalances.add(new Balance(1L, 1L, 1L, 10));
-        expectedBalances.add(new Balance(2L, 1L, 2L, 10));
-        expectedBalances.add(new Balance(3L, 2L, 1L, 10));
-        expectedBalances.add(new Balance(4L, 2L, 2L, 10));
+        expectedBalances.add(new Balance(1L, 24L, 1L, 10));
+        expectedBalances.add(new Balance(2L, 24L, 2L, 10));
+        expectedBalances.add(new Balance(3L, 25L, 1L, 10));
+        expectedBalances.add(new Balance(4L, 25L, 2L, 10));
 
         HttpUriRequest request = new HttpGet("http://localhost:" + port + balancesPath);
 
