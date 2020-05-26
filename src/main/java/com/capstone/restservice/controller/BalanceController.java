@@ -3,6 +3,7 @@ package com.capstone.restservice.controller;
 import com.capstone.restservice.domain.Balance;
 import com.capstone.restservice.service.BalanceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +22,7 @@ public class BalanceController {
         return balanceService.getAll();
     }
 
+    @CrossOrigin
     @GetMapping("/balance")
     public Balance getBalanceByProductAndLocation(
             @RequestParam Long productId,
