@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface BalanceService {
     List<Balance> getAll();
+
+    Balance getByProductAndLocation(long productId, long locationId);
 }

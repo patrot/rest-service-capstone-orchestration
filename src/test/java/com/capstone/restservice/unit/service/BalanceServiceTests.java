@@ -25,6 +25,7 @@ import static org.mockito.Mockito.verify;
 
 @RunWith(SpringRunner.class)
 public class BalanceServiceTests {
+    List<BalanceDto> balanceDtos;
 
     @TestConfiguration
     static class DepartmentServiceImplTestContextConfiguration {
@@ -43,14 +44,11 @@ public class BalanceServiceTests {
 
     @Before
     public void setUp() {
-        List<BalanceDto> balanceDtos = new ArrayList<>();
+        balanceDtos = new ArrayList<>();
         balanceDtos.add(new BalanceDto(1L,1L, 1L, 10));
         balanceDtos.add(new BalanceDto(2L,1L, 2L, 10));
         balanceDtos.add(new BalanceDto(3L,2L, 1L, 10));
         balanceDtos.add(new BalanceDto(4L,2L, 2L, 10));
-
-        Mockito.when(balanceRestClient.getAll())
-                .thenReturn(balanceDtos);
     }
 
     @Test
@@ -64,6 +62,9 @@ public class BalanceServiceTests {
         expectedProductBalances.add(new Balance(3L, 2L, 1L, 10));
         expectedProductBalances.add(new Balance(4L, 2L, 2L, 10));
 
+        Mockito.when(balanceRestClient.getAll())
+                .thenReturn(balanceDtos);
+
         // Act
 
         List<Balance> actualProductBalances = balanceService.getAll();
@@ -73,5 +74,25 @@ public class BalanceServiceTests {
         verify(balanceRestClient, times(1)).getAll();
 
         assertTrue(Arrays.deepEquals(expectedProductBalances.toArray(), actualProductBalances.toArray()));
+    }
+
+    @Test
+    public void getByProductAndLocation() {
+
+        // Arrange
+        Balance expectedProductBalance = new Balance(1L, 1L, 1L, 10);
+
+        Mockito.when(balanceRestClient.getByProductAndLocation(1L, 1L))
+                .thenReturn(balanceDtos.get(0));
+
+        // Act
+
+        Balance actualProductBalance = balanceService.getByProductAndLocation(1L, 1L);
+
+        // Assert
+
+        verify(balanceRestClient, times(1)).getByProductAndLocation(1L, 1L);
+
+        assertTrue(expectedProductBalance.equals(actualProductBalance));
     }
 }

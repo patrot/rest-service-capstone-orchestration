@@ -27,4 +27,17 @@ public class ProductServiceImpl implements ProductService {
 
         return products;
     }
+
+    @Override
+    public List<Product> getByDepartment(Long departmentId) {
+
+        List<ProductDto> productDtos = productRestClient.getByDepartment(departmentId);
+
+        List<Product> products = new ArrayList<>();
+        for (ProductDto productDto:productDtos) {
+            products.add(new Product(productDto.getId(), productDto.getName(), productDto.getDepartmentId()));
+        }
+
+        return products;
+    }
 }

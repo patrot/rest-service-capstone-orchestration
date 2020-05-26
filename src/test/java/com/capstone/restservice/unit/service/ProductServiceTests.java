@@ -25,6 +25,7 @@ import static org.mockito.Mockito.verify;
 
 @RunWith(SpringRunner.class)
 public class ProductServiceTests {
+    List<ProductDto> productDtos;
 
     @TestConfiguration
     static class ProductServiceImplTestContextConfiguration {
@@ -44,12 +45,9 @@ public class ProductServiceTests {
     @Before
     public void setUp() {
 
-        List<ProductDto> productDtos = new ArrayList<>();
+        productDtos = new ArrayList<>();
         productDtos.add(new ProductDto(1L,"Long Sleeves", 1L));
         productDtos.add(new ProductDto(2L,"Short Sleeves", 1L));
-
-        Mockito.when(productRestClient.getAll())
-                .thenReturn(productDtos);
     }
 
     @Test
@@ -61,6 +59,9 @@ public class ProductServiceTests {
         expectedProducts.add(new Product(1l, "Long Sleeves", 1L));
         expectedProducts.add(new Product(2l, "Short Sleeves", 1L));
 
+        Mockito.when(productRestClient.getAll())
+                .thenReturn(productDtos);
+
         // Act
 
         List<Product> actualProducts = productService.getAll();
@@ -68,6 +69,28 @@ public class ProductServiceTests {
         // Assert
 
         verify(productRestClient, times(1)).getAll();
+
+        assertTrue(Arrays.deepEquals(expectedProducts.toArray(), actualProducts.toArray()));
+    }
+
+    @Test
+    public void getProductByDepartmentTests() {
+
+        // Arrange
+
+        List<Product> expectedProducts = new ArrayList<>();
+        expectedProducts.add(new Product(1l, "Long Sleeves", 1L));
+        List<ProductDto> sublist = new ArrayList<>();
+        sublist.add(productDtos.get(0));
+        Mockito.when(productRestClient.getByDepartment(1L)).thenReturn(sublist);
+
+        // Act
+
+        List<Product> actualProducts = productService.getByDepartment(1L);
+
+        // Assert
+
+        verify(productRestClient, times(1)).getByDepartment(1L);
 
         assertTrue(Arrays.deepEquals(expectedProducts.toArray(), actualProducts.toArray()));
     }

@@ -67,7 +67,31 @@ public class ProductControllerTests {
         String response = result.getResponse().getContentAsString();
         ObjectMapper objectMapper = new ObjectMapper();
         List<Product> actualProducts = objectMapper.readValue(response, new TypeReference<>() {});
-        System.out.println(actualProducts);
+        assertTrue(Arrays.deepEquals(expectedProducts.toArray(), actualProducts.toArray()));
+    }
+
+    @Test
+    public void getProductByDepartmentTest() throws Exception {
+
+        // Arrange
+
+        List<Product> expectedProducts = new ArrayList<>();
+        expectedProducts.add(new Product(1L, "Long Sleeves", 7L));
+
+        when(productService.getByDepartment(7L)).thenReturn(expectedProducts);
+
+        // Act
+
+        MvcResult result = this.mockMvc.perform(get("/products?departmentId=7"))
+                .andDo(print()).andReturn();
+
+        // Assert
+
+        verify(productService, times(1)).getByDepartment(7L);
+
+        String response = result.getResponse().getContentAsString();
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<Product> actualProducts = objectMapper.readValue(response, new TypeReference<>() {});
         assertTrue(Arrays.deepEquals(expectedProducts.toArray(), actualProducts.toArray()));
     }
 }
