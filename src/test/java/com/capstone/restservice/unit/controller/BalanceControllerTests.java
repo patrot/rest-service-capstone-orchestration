@@ -73,4 +73,27 @@ public class BalanceControllerTests {
         List<Balance> actualProductBalances = objectMapper.readValue(response, new TypeReference<>() {});
         assertTrue(Arrays.deepEquals(expectedBalances.toArray(), actualProductBalances.toArray()));
     }
+
+    @Test
+    public void getBalanceByProductAndLocationTest() throws Exception {
+
+        // Arrange
+
+        Balance expectedBalance = new Balance(1L, 1L, 1L, 10);
+        when(balanceService.getByProductAndLocation(1L, 1L)).thenReturn(expectedBalance);
+
+        // Act
+
+        MvcResult result = this.mockMvc.perform(get("/balance?productId=1&locationId=1")).
+                andDo(print()).andReturn();
+
+        // Assert
+
+        verify(balanceService, times(1)).getByProductAndLocation(1L, 1L);
+
+        String response = result.getResponse().getContentAsString();
+        ObjectMapper objectMapper = new ObjectMapper();
+        Balance actualProductBalance = objectMapper.readValue(response, new TypeReference<>() {});
+        assertTrue(expectedBalance.equals(actualProductBalance));
+    }
 }

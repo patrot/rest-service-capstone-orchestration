@@ -31,4 +31,17 @@ public class ProductRestClientImpl implements ProductRestClient {
 
         return productDtos;
     }
+
+    @Override
+    public List<ProductDto> getByDepartment(Long departmentId) {
+        String productsByDepartmentUrl = productUrl + "/products?departmentId=" + departmentId;
+
+        ResponseEntity<ProductDto[]> responseEntity = restTemplate.getForEntity(productsByDepartmentUrl, ProductDto[].class);
+
+        ProductDto[] productDtoArray = responseEntity.getBody();
+
+        List<ProductDto>  productDtos = new ArrayList<>(Arrays.asList(productDtoArray));
+
+        return productDtos;
+    }
 }

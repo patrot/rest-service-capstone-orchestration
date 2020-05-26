@@ -4,6 +4,7 @@ import com.capstone.restservice.domain.Balance;
 import com.capstone.restservice.service.BalanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -18,5 +19,14 @@ public class BalanceController {
     public List<Balance> allBalances() {
 
         return balanceService.getAll();
+    }
+
+    @GetMapping("/balance")
+    public Balance getBalanceByProductAndLocation(
+            @RequestParam Long productId,
+            @RequestParam Long locationId
+    ) {
+
+        return balanceService.getByProductAndLocation(productId, locationId);
     }
 }

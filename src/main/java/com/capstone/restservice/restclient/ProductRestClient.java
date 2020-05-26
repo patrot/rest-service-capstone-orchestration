@@ -4,4 +4,5 @@ import java.util.List;
 
 public interface ProductRestClient {
     List<ProductDto> getAll();
+    List<ProductDto> getByDepartment(Long departmentId);
 }

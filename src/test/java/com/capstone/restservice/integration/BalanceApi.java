@@ -71,4 +71,31 @@ public class BalanceApi {
         List<Balance> actualBalances = objectMapper.readValue(response, new TypeReference<>() {});
         assertTrue(Arrays.deepEquals(expectedBalances.toArray(), actualBalances.toArray()));
     }
+
+    @Test
+    public void balancesByProductAndLocation() throws IOException {
+
+        // Arrange
+
+        List<Balance> expectedBalances = new ArrayList<>();
+        expectedBalances.add(new Balance(1L, 24L, 1L, 10));
+        expectedBalances.add(new Balance(2L, 24L, 2L, 10));
+        expectedBalances.add(new Balance(3L, 25L, 1L, 10));
+        expectedBalances.add(new Balance(4L, 25L, 2L, 10));
+
+        Balance expectedBalance = new Balance(1L, 24L, 1L, 10);
+
+        HttpUriRequest request = new HttpGet("http://localhost:" + port + "/balance?productId=24&locationId=1");
+
+        // Act
+
+        HttpResponse httpResponse = HttpClientBuilder.create().build().execute(request);
+
+        // Assert
+
+        String response = EntityUtils.toString(httpResponse.getEntity());
+        ObjectMapper objectMapper = new ObjectMapper();
+        Balance actualBalance = objectMapper.readValue(response, new TypeReference<>() {});
+        assertTrue(expectedBalance.equals(actualBalance));
+    }
 }

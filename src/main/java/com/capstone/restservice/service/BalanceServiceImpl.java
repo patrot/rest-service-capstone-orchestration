@@ -28,4 +28,11 @@ public class BalanceServiceImpl implements BalanceService {
 
         return balances;
     }
+
+    @Override
+    public Balance getByProductAndLocation(long productId, long locationId) {
+        BalanceDto balanceDto = balanceRestClient.getByProductAndLocation(productId, locationId);
+
+        return new Balance(balanceDto.getId(), balanceDto.getProductId(), balanceDto.getLocationId(), balanceDto.getQuantity());
+    }
 }

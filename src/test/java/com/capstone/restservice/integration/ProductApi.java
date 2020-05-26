@@ -80,4 +80,30 @@ public class ProductApi {
         List<Product> actualProducts = objectMapper.readValue(response, new TypeReference<>() {});
         assertTrue(Arrays.deepEquals(expectedProducts.toArray(), actualProducts.toArray()));
     }
+
+    @Test
+    @DirtiesContext
+    public void productsByDepartment() throws IOException {
+
+        // Arrange
+
+        List<Product> expectedProducts = new ArrayList<>();
+        expectedProducts.add(new Product(27L, "Straight", 8L));
+        expectedProducts.add(new Product(28L, "Flared", 8L));
+        expectedProducts.add(new Product(29L, "Cargo", 8L));
+
+        HttpUriRequest request = new HttpGet("http://localhost:" + port + "/products?departmentId=8");
+
+        // Act
+
+        HttpResponse httpResponse = HttpClientBuilder.create().build().execute(request);
+
+        // Assert
+
+        String response = EntityUtils.toString(httpResponse.getEntity());
+        System.out.println(response);
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<Product> actualProducts = objectMapper.readValue(response, new TypeReference<>() {});
+        assertTrue(Arrays.deepEquals(expectedProducts.toArray(), actualProducts.toArray()));
+    }
 }
